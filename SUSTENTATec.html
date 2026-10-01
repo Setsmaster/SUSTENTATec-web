@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SUSTENTAtec | Propuesta de empaque biodegradable</title>
+<style>
+  :root{
+    --bg:#E8EFEE; --panel:#F7FAF9; --ink:#12352F; --muted:#4A6660;
+    --line:#BFD0CC; --accent:#2E7D62; --accent-dark:#1F5D48; --sun:#E0A82E; --warn:#8A5A00;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6}
+  h1,h2,h3,label,button,.tag{font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif}
+  header{padding:48px 20px 28px;max-width:960px;margin:0 auto}
+  .brand{font-family:"Trebuchet MS",Arial,sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:.02em;color:var(--accent-dark)}
+  h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;margin:14px 0 14px;max-width:18ch}
+  header p{max-width:60ch;color:var(--muted);margin:0;font-size:1.1rem}
+  main{max-width:960px;margin:0 auto;padding:0 20px 60px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:24px;align-items:start}
+  @media(max-width:800px){main{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px}
+  h2{font-size:1.25rem;margin:0 0 4px}
+  .hint{color:var(--muted);font-size:.95rem;margin:0 0 20px}
+  .field{margin-bottom:18px}
+  label{display:block;font-weight:700;margin-bottom:6px;font-size:.95rem}
+  input,select{width:100%;padding:12px 14px;font-size:1rem;font-family:inherit;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:8px}
+  input:focus,select:focus,button:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-color:var(--accent)}
+  .err{color:#9B2C1F;font-size:.9rem;margin-top:6px;min-height:1.2em;font-family:"Trebuchet MS",Arial,sans-serif}
+  button{width:100%;padding:15px;font-size:1.05rem;font-weight:700;color:#fff;background:var(--accent);border:0;border-radius:8px;cursor:pointer;transition:background .15s}
+  button:hover{background:var(--accent-dark)}
+  .empty{border:2px dashed var(--line);border-radius:10px;padding:34px 22px;color:var(--muted);text-align:center}
+  .result-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px}
+  .tag{display:inline-block;background:#DCEBE5;color:var(--accent-dark);border-radius:99px;padding:3px 12px;font-size:.85rem;font-weight:700}
+  .tag.sun{background:#F7E7BC;color:var(--warn)}
+  h3{margin:0;font-size:1.5rem;line-height:1.2}
+  .summary{color:var(--muted);margin:8px 0 20px}
+  .mats{list-style:none;padding:0;margin:0 0 20px}
+  .mats li{margin-bottom:12px}
+  .mats .row{display:flex;justify-content:space-between;gap:12px;font-family:"Trebuchet MS",Arial,sans-serif;font-size:.95rem}
+  .bar{height:8px;background:#DCE7E4;border-radius:99px;margin-top:5px;overflow:hidden}
+  .bar span{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .5s ease}
+  dl{margin:0 0 16px;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:.98rem}
+  dt{font-weight:700;font-family:"Trebuchet MS",Arial,sans-serif}
+  dd{margin:0}
+  .note{background:#FBF3DC;border-left:4px solid var(--sun);padding:12px 14px;border-radius:6px;font-size:.93rem;margin-top:8px}
+  footer{max-width:960px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:.85rem}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">SUSTENTAtec</div>
+  <h1>Empaques biodegradables hechos a la medida de tu empresa</h1>
+  <p>Cuéntanos qué necesitas empacar y recibe una propuesta con los materiales de los que estaría hecho tu empaque.</p>
+</header>
+
+<main>
+  <section class="card" aria-labelledby="t-form">
+    <h2 id="t-form">Datos de tu empaque</h2>
+    <p class="hint">Todos los campos son obligatorios, excepto la cantidad.</p>
+
+    <div class="field">
+      <label for="producto">¿Qué producto vas a empacar?</label>
+      <input id="producto" type="text" placeholder="Ej. Botellas de vidrio con salsa" autocomplete="off">
+      <div class="err" id="err-producto" role="alert"></div>
+    </div>
+
+    <div class="field">
+      <label for="objetivo">¿Cuál es el objetivo del empaque?</label>
+      <select id="objetivo">
+        <option value="">Selecciona una opción</option>
+        <option value="proteger">Proteger el producto en transporte</option>
+        <option value="alimento">Contener alimentos</option>
+        <option value="venta">Presentar el producto en venta</option>
+        <option value="envolver">Envolver o embalar</option>
+      </select>
+      <div class="err" id="err-objetivo" role="alert"></div>
+    </div>
+
+    <div class="field">
+      <label for="durabilidad">¿Qué durabilidad necesita?</label>
+      <select id="durabilidad">
+        <option value="">Selecciona una opción</option>
+        <option value="corta">Corta (hasta 1 mes)</option>
+        <option value="media">Media (de 1 a 6 meses)</option>
+        <option value="larga">Larga (más de 6 meses)</option>
+      </select>
+      <div class="err" id="err-durabilidad" role="alert"></div>
+    </div>
+
+    <div class="field">
+      <label for="cantidad">Cantidad mensual de empaques (opcional)</label>
+      <input id="cantidad" type="number" min="1" placeholder="Ej. 5000">
+    </div>
+
+    <button id="btn" type="button">Generar propuesta de empaque</button>
+  </section>
+
+  <section class="card" aria-labelledby="t-res" aria-live="polite">
+    <h2 id="t-res">Tu propuesta</h2>
+    <p class="hint">Aquí aparecerá el empaque recomendado.</p>
+    <div id="resultado" class="empty">Completa los datos y presiona el botón para ver tu propuesta.</div>
+  </section>
+</main>
+
+<footer>Las propuestas son preliminares. Los porcentajes y tiempos de degradación son estimados y deben validarse con pruebas de laboratorio.</footer>
+
+<script>
+  // Base de conocimiento: un empaque base por objetivo
+  const EMPAQUES = {
+    proteger: {
+      nombre: "Empaque protector de micelio",
+      resumen: "Amortigua golpes y sustituye al unicel y al plástico burbuja.",
+      reemplaza: "Unicel (poliestireno expandido) y plástico burbuja",
+      dias: 45, desecho: "Composta doméstica o tierra de jardín",
+      materiales: [["Micelio de hongo", 40], ["Cascarilla de arroz y residuos agrícolas", 50], ["Almidón vegetal (aglutinante)", 10]]
+    },
+    alimento: {
+      nombre: "Charola de bagazo de caña",
+      resumen: "Contenedor rígido apto para alimentos, con buena resistencia al calor.",
+      reemplaza: "Charolas y contenedores de unicel o plástico PET",
+      dias: 75, desecho: "Composta industrial o doméstica",
+      materiales: [["Bagazo de caña de azúcar", 70], ["Fibra de bambú", 20], ["Almidón de maíz", 8], ["Cera vegetal", 2]]
+    },
+    venta: {
+      nombre: "Caja de cartón kraft reciclado",
+      resumen: "Empaque de presentación con impresión limpia y acabado natural.",
+      reemplaza: "Cajas plastificadas y blísteres de plástico",
+      dias: 90, desecho: "Reciclaje de papel o composta",
+      materiales: [["Cartón kraft reciclado", 88], ["Recubrimiento acuoso", 8], ["Tinta a base de agua", 4]]
+    },
+    envolver: {
+      nombre: "Película flexible de almidón de yuca",
+      resumen: "Film transparente y flexible para envolver o embalar.",
+      reemplaza: "Film de polietileno y bolsas de plástico",
+      dias: 60, desecho: "Composta doméstica",
+      materiales: [["Almidón de yuca", 55], ["Glicerina vegetal (plastificante)", 25], ["Fibra de celulosa", 15], ["Extracto natural antimicrobiano", 5]]
+    }
+  };
+
+  const DURA = {
+    corta: { txt: "Hasta 1 mes", extra: null, dias: 0 },
+    media: { txt: "De 1 a 6 meses", extra: ["Capa de barrera de cera vegetal", 6], dias: 20 },
+    larga: { txt: "Más de 6 meses", extra: ["Laca natural de barrera (resina vegetal)", 10], dias: 45 }
+  };
+
+  const $ = id => document.getElementById(id);
+
+  function generar() {
+    const producto = $("producto").value.trim();
+    const objetivo = $("objetivo").value;
+    const durabilidad = $("durabilidad").value;
+    const cantidad = parseInt($("cantidad").value, 10);
+
+    // Validación
+    $("err-producto").textContent = producto ? "" : "Escribe qué producto vas a empacar.";
+    $("err-objetivo").textContent = objetivo ? "" : "Elige el objetivo del empaque.";
+    $("err-durabilidad").textContent = durabilidad ? "" : "Elige la durabilidad que necesitas.";
+    if (!producto || !objetivo || !durabilidad) return;
+
+    // Proceso: empaque base + ajustes
+    const base = EMPAQUES[objetivo];
+    const d = DURA[durabilidad];
+    let materiales = base.materiales.map(m => [m[0], m[1]]);
+    let dias = base.dias + d.dias;
+    const notas = [];
+    const t = producto.toLowerCase();
+
+    // Palabras clave
+    if (/líquid|liquid|agua|bebida|salsa|aceite|jugo|jabón|jabon/.test(t) && objetivo !== "alimento") {
+      materiales.push(["Capa de barrera contra humedad (cera vegetal)", 5]);
+      notas.push("Tu producto parece contener líquidos, por eso agregamos una barrera contra humedad.");
+    }
+    if (/frágil|fragil|vidrio|cristal|cerámica|ceramica|electr/.test(t) && objetivo !== "proteger") {
+      notas.push("Como tu producto es frágil, te recomendamos combinar este empaque con relleno de micelio.");
+    }
+    if (d.extra) materiales.push(d.extra.slice());
+    if (durabilidad === "larga") {
+      notas.push("A mayor durabilidad, el empaque tarda más en degradarse y suele requerir composta industrial.");
+    }
+
+    // Normalizar porcentajes a 100
+    const total = materiales.reduce((s, m) => s + m[1], 0);
+    materiales = materiales.map(m => [m[0], Math.round(m[1] / total * 100)]);
+    const ajuste = 100 - materiales.reduce((s, m) => s + m[1], 0);
+    materiales[0][1] += ajuste;
+
+    const desecho = durabilidad === "larga" && base.desecho.indexOf("doméstica") > -1
+      ? "Composta industrial" : base.desecho;
+
+    // Salida
+    const mats = materiales.map(m =>
+      `<li><div class="row"><span>${m[0]}</span><strong>${m[1]}%</strong></div>
+       <div class="bar"><span style="width:0" data-w="${m[1]}"></span></div></li>`).join("");
+    const cant = isNaN(cantidad) || cantidad < 1 ? "" :
+      `<dt>Volumen</dt><dd>${cantidad.toLocaleString("es-MX")} empaques al mes</dd>`;
+    const notasHTML = notas.map(n => `<div class="note">${n}</div>`).join("");
+
+    $("resultado").className = "";
+    $("resultado").innerHTML = `
+      <div class="result-head"><span class="tag">Biodegradable</span><span class="tag sun">Durabilidad: ${d.txt}</span></div>
+      <h3>${base.nombre}</h3>
+      <p class="summary">${base.resumen} Diseñado para: <em>${escapar(producto)}</em>.</p>
+      <h2 style="font-size:1.05rem;margin-bottom:10px">De qué está hecho</h2>
+      <ul class="mats">${mats}</ul>
+      <dl>
+        <dt>Se degrada en</dt><dd>Aprox. ${dias} días</dd>
+        <dt>Reemplaza a</dt><dd>${base.reemplaza}</dd>
+        <dt>Desecho</dt><dd>${desecho}</dd>
+        ${cant}
+      </dl>
+      ${notasHTML}`;
+
+    // Animar barras tras el clic
+    requestAnimationFrame(() => {
+      document.querySelectorAll(".bar span").forEach(b => b.style.width = b.dataset.w + "%");
+    });
+    if (window.innerWidth <= 800) $("resultado").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function escapar(s) {
+    return s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  $("btn").addEventListener("click", generar);
+  document.querySelectorAll("input,select").forEach(el =>
+    el.addEventListener("keydown", e => { if (e.key === "Enter") generar(); }));
+</script>
+</body>
+</html>
